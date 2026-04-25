@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,6 +47,7 @@ body {
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
   background: var(--s1);
+  position: relative;
 }
 
 .logo {
@@ -55,6 +56,22 @@ body {
   letter-spacing: 0.2em;
   color: var(--accent);
   text-transform: uppercase;
+}
+
+.topbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.topbar-favicon {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
 }
 
 .topbar-right {
@@ -683,44 +700,47 @@ th.col-apa-toggle { cursor: default; }
     <input class="lock-input" id="lockInput" type="password" placeholder="••••••••"
       onkeydown="if(event.key==='Enter') checkPassword()">
     <div class="lock-error" id="lockError"></div>
-    <button class="lock-btn" onclick="checkPassword()">Giriş</button>
+    <button class="lock-btn" onclick="checkPassword()">Enter</button>
   </div>
 </div>
 
 <!-- TOPBAR -->
 <div class="topbar">
   <span class="logo">◈ maes / reading</span>
+  <div class="topbar-center">
+    <img src="favicon.png" alt="logo" class="topbar-favicon">
+  </div>
   <div class="topbar-right">
-    <button class="btn-settings" onclick="toggleSettings()">⚙ Ayarlar</button>
-    <button class="btn-add" onclick="openAddModal()">+ Ekle</button>
+    <button class="btn-settings" onclick="toggleSettings()">⚙ Settings</button>
+    <button class="btn-add" onclick="openAddModal()">+ Add</button>
   </div>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
   <button class="tab active" id="tab-article" onclick="setTab('article')">
-    Makaleler <span class="tab-count" id="count-article">0</span>
+    Articles <span class="tab-count" id="count-article">0</span>
   </button>
   <button class="tab" id="tab-book" onclick="setTab('book')">
-    Kitaplar <span class="tab-count" id="count-book">0</span>
+    Books <span class="tab-count" id="count-book">0</span>
   </button>
   <button class="tab" id="tab-thesis" onclick="setTab('thesis')">
-    Tezler <span class="tab-count" id="count-thesis">0</span>
+    Theses <span class="tab-count" id="count-thesis">0</span>
   </button>
   <button class="tab" id="tab-building" onclick="setTab('building')">
-    Binalar <span class="tab-count" id="count-building">0</span>
+    Buildings <span class="tab-count" id="count-building">0</span>
   </button>
   <button class="tab" id="tab-book_chapter" onclick="setTab('book_chapter')">
-    Kitap Bölümleri <span class="tab-count" id="count-book_chapter">0</span>
+    Book Chapters <span class="tab-count" id="count-book_chapter">0</span>
   </button>
   <button class="tab" id="tab-website" onclick="setTab('website')">
-    Websiteleri <span class="tab-count" id="count-website">0</span>
+    Websites <span class="tab-count" id="count-website">0</span>
   </button>
 </div>
 
 <!-- COLUMN TOGGLE BAR -->
 <div class="col-toggle-bar" id="colToggleBar">
-  <span class="col-toggle-label">Kolonlar:</span>
+  <span class="col-toggle-label">Columns:</span>
 </div>
 
 <!-- TABLE -->
@@ -760,37 +780,37 @@ th.col-apa-toggle { cursor: default; }
 <!-- ADD/EDIT MODAL -->
 <div class="overlay" id="formOverlay" onclick="closeIfOutside(event,'formOverlay')">
   <div class="modal">
-    <div class="modal-title" id="formTitle">Yeni Kayıt</div>
+    <div class="modal-title" id="formTitle">New Record</div>
     <div class="form-grid">
       <div class="fg">
-        <label class="flabel">Kod</label>
+        <label class="flabel">Code</label>
         <input class="finput" id="fCode" placeholder="ART0001">
       </div>
       <div class="fg">
-        <label class="flabel">Tür</label>
+        <label class="flabel">Type</label>
         <select class="fselect" id="fType">
-          <option value="article">Makale</option>
-          <option value="book">Kitap</option>
-          <option value="book_chapter">Kitap Bölümü</option>
-          <option value="thesis">Tez</option>
-          <option value="building">Bina</option>
+          <option value="article">Article</option>
+          <option value="book">Book</option>
+          <option value="book_chapter">Book Chapter</option>
+          <option value="thesis">Thesis</option>
+          <option value="building">Building</option>
           <option value="website">Website</option>
         </select>
       </div>
       <div class="fg full">
-        <label class="flabel">Başlık *</label>
-        <input class="finput" id="fTitle" placeholder="Başlık...">
+        <label class="flabel">Title *</label>
+        <input class="finput" id="fTitle" placeholder="Title...">
       </div>
       <div class="fg full">
-        <label class="flabel">Yazar(lar)</label>
-        <input class="finput" id="fAuthors" placeholder="Ad Soyad, Ad Soyad...">
+        <label class="flabel">Author(s)</label>
+        <input class="finput" id="fAuthors" placeholder="Last, F., Last, F....">
       </div>
       <div class="fg">
-        <label class="flabel">Yıl</label>
+        <label class="flabel">Year</label>
         <input class="finput" id="fYear" placeholder="2024">
       </div>
       <div class="fg">
-        <label class="flabel">Durum</label>
+        <label class="flabel">Status</label>
         <select class="fselect" id="fStatus">
           <option value="To Read">To Read</option>
           <option value="Reading">Reading</option>
@@ -798,66 +818,66 @@ th.col-apa-toggle { cursor: default; }
         </select>
       </div>
       <div class="fg full">
-        <label class="flabel">Yayınlayan</label>
-        <input class="finput" id="fPublishedBy" placeholder="Yayınevi / Dergi...">
+        <label class="flabel">Published By</label>
+        <input class="finput" id="fPublishedBy" placeholder="Publisher / Journal...">
       </div>
       <div class="fg">
-        <label class="flabel">Kaynak / Kurum</label>
+        <label class="flabel">Source / Institution</label>
         <input class="finput" id="fSource" placeholder="KU Leuven...">
       </div>
       <div class="fg">
-        <label class="flabel">Sayfalar</label>
+        <label class="flabel">Pages</label>
         <input class="finput" id="fPages" placeholder="333 / 12-24">
       </div>
       <div class="fg full">
-        <label class="flabel">Paradigma</label>
+        <label class="flabel">Paradigm</label>
         <input class="finput" id="fParadigm" placeholder="Marxist, Post-structuralist...">
       </div>
       <div class="fg full">
-        <label class="flabel">Tema</label>
+        <label class="flabel">Theme</label>
         <input class="finput" id="fTheme" placeholder="Space, Power...">
       </div>
       <div class="fg full">
-        <label class="flabel">Metodoloji</label>
+        <label class="flabel">Methodology</label>
         <input class="finput" id="fMethodology" placeholder="Theoretical, Empirical...">
       </div>
       <div class="fg full">
-        <label class="flabel">Disiplin</label>
+        <label class="flabel">Discipline</label>
         <input class="finput" id="fDiscipline" placeholder="Architecture, Geography...">
       </div>
       <div class="fg">
-        <label class="flabel">Ölçek</label>
+        <label class="flabel">Scale</label>
         <input class="finput" id="fScale" placeholder="Global, City...">
       </div>
       <div class="fg">
-        <label class="flabel">Proje</label>
+        <label class="flabel">Project</label>
         <input class="finput" id="fProjectIn" placeholder="ARCH513...">
       </div>
       <div class="fg full">
-        <label class="flabel">Anahtar Kelimeler</label>
+        <label class="flabel">Keywords</label>
         <input class="finput" id="fKeywords" placeholder="city diplomacy, space...">
       </div>
       <div class="fg full">
-        <label class="flabel">Nasıl Kullanacağım</label>
+        <label class="flabel">How I Will Use It</label>
         <textarea class="ftextarea" id="fHowToUse" placeholder="To define UN Corridor..."></textarea>
       </div>
       <div class="fg full">
-        <label class="flabel">Notlar</label>
-        <textarea class="ftextarea" id="fNotes" placeholder="Kişisel notlar..."></textarea>
+        <label class="flabel">Notes</label>
+        <textarea class="ftextarea" id="fNotes" placeholder="Personal notes..."></textarea>
       </div>
       <div class="fg full">
         <label class="flabel">APA7 In-Text</label>
-        <input class="finput" id="fApaIntext" placeholder="(Yazar, Yıl)">
+        <input class="finput" id="fApaIntext" placeholder="(Author, Year)">
       </div>
       <div class="fg full">
-        <label class="flabel">APA7 Kaynakça</label>
-        <textarea class="ftextarea" id="fApaEndtext" placeholder="Yazar, A. (Yıl). Başlık. Yayınevi."></textarea>
+        <label class="flabel">APA7 Reference</label>
+        <textarea class="ftextarea" id="fApaEndtext" placeholder="Author, A. (Year). Title. Publisher."></textarea>
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-danger" id="fDeleteBtn" onclick="deleteRecord()" style="display:none">Sil</button>
-      <button class="btn btn-ghost" onclick="closeOverlay('formOverlay')">İptal</button>
-      <button class="btn btn-primary" onclick="saveRecord()">Kaydet</button>
+      <button class="btn btn-danger" id="fDeleteBtn" onclick="deleteRecord()" style="display:none">Delete</button>
+      <button class="btn btn-ghost" onclick="closeOverlay('formOverlay')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRecord()">Save</button>
     </div>
   </div>
 </div>
@@ -875,7 +895,7 @@ th.col-apa-toggle { cursor: default; }
   <div class="detail-body" id="detailBody"></div>
   <div class="detail-footer">
     <select class="status-select" id="dStatus" onchange="updateStatus()"></select>
-    <button class="btn btn-ghost" onclick="openEditModal()" style="font-size:10px">Düzenle</button>
+    <button class="btn btn-ghost" onclick="openEditModal()" style="font-size:10px">Edit</button>
   </div>
 </div>
 
@@ -896,76 +916,76 @@ let settingsOpen = false;
 // Column definitions per type
 const COLS = {
   article: [
-    { key: 'code', label: 'Kod', always: true },
-    { key: 'title', label: 'Başlık', always: true },
-    { key: 'authors', label: 'Yazarlar' },
-    { key: 'year', label: 'Yıl' },
-    { key: 'status', label: 'Durum', always: true },
-    { key: 'published_by', label: 'Dergi' },
-    { key: 'source', label: 'Kurum' },
-    { key: 'pages', label: 'Sayfa' },
-    { key: 'paradigm', label: 'Paradigma' },
-    { key: 'theme', label: 'Tema' },
-    { key: 'methodology', label: 'Metodoloji' },
-    { key: 'discipline', label: 'Disiplin' },
-    { key: 'scale', label: 'Ölçek' },
-    { key: 'project_in', label: 'Proje' },
-    { key: 'keywords', label: 'Anahtar' },
+    { key: 'code', label: 'Code', always: true },
+    { key: 'title', label: 'Title', always: true },
+    { key: 'authors', label: 'Authors' },
+    { key: 'year', label: 'Year' },
+    { key: 'status', label: 'Status', always: true },
+    { key: 'published_by', label: 'Journal' },
+    { key: 'source', label: 'Institution' },
+    { key: 'pages', label: 'Pages' },
+    { key: 'paradigm', label: 'Paradigm' },
+    { key: 'theme', label: 'Theme' },
+    { key: 'methodology', label: 'Methodology' },
+    { key: 'discipline', label: 'Discipline' },
+    { key: 'scale', label: 'Scale' },
+    { key: 'project_in', label: 'Project' },
+    { key: 'keywords', label: 'Keywords' },
   ],
   book: [
-    { key: 'code', label: 'Kod', always: true },
-    { key: 'title', label: 'Başlık', always: true },
-    { key: 'authors', label: 'Yazarlar' },
-    { key: 'year', label: 'Yıl' },
-    { key: 'status', label: 'Durum', always: true },
-    { key: 'published_by', label: 'Yayınevi' },
-    { key: 'pages', label: 'Sayfa' },
-    { key: 'discipline', label: 'Disiplin' },
+    { key: 'code', label: 'Code', always: true },
+    { key: 'title', label: 'Title', always: true },
+    { key: 'authors', label: 'Authors' },
+    { key: 'year', label: 'Year' },
+    { key: 'status', label: 'Status', always: true },
+    { key: 'published_by', label: 'Publisher' },
+    { key: 'pages', label: 'Pages' },
+    { key: 'discipline', label: 'Discipline' },
   ],
   thesis: [
-    { key: 'code', label: 'Kod', always: true },
-    { key: 'title', label: 'Başlık', always: true },
-    { key: 'authors', label: 'Yazarlar' },
-    { key: 'year', label: 'Yıl' },
-    { key: 'status', label: 'Durum', always: true },
-    { key: 'published_by', label: 'Üniversite' },
-    { key: 'paradigm', label: 'Paradigma' },
-    { key: 'theme', label: 'Tema' },
-    { key: 'discipline', label: 'Disiplin' },
-    { key: 'project_in', label: 'Proje' },
+    { key: 'code', label: 'Code', always: true },
+    { key: 'title', label: 'Title', always: true },
+    { key: 'authors', label: 'Authors' },
+    { key: 'year', label: 'Year' },
+    { key: 'status', label: 'Status', always: true },
+    { key: 'published_by', label: 'University' },
+    { key: 'paradigm', label: 'Paradigm' },
+    { key: 'theme', label: 'Theme' },
+    { key: 'discipline', label: 'Discipline' },
+    { key: 'project_in', label: 'Project' },
   ],
   building: [
-    { key: 'code', label: 'Kod', always: true },
-    { key: 'title', label: 'İsim', always: true },
-    { key: 'authors', label: 'Mimar' },
-    { key: 'year', label: 'Yıl' },
-    { key: 'status', label: 'Durum', always: true },
-    { key: 'source', label: 'Konum' },
-    { key: 'theme', label: 'Tema' },
-    { key: 'paradigm', label: 'Stil' },
-    { key: 'discipline', label: 'Tür' },
-    { key: 'project_in', label: 'Proje' },
-    { key: 'keywords', label: 'Anahtar' },
+    { key: 'code', label: 'Code', always: true },
+    { key: 'title', label: 'Name', always: true },
+    { key: 'authors', label: 'Architect' },
+    { key: 'year', label: 'Year' },
+    { key: 'status', label: 'Status', always: true },
+    { key: 'source', label: 'Location' },
+    { key: 'theme', label: 'Theme' },
+    { key: 'paradigm', label: 'Style' },
+    { key: 'discipline', label: 'Type' },
+    { key: 'project_in', label: 'Project' },
+    { key: 'keywords', label: 'Keywords' },
   ],
   book_chapter: [
-    { key: 'code', label: 'Kod', always: true },
-    { key: 'title', label: 'Bölüm Başlığı', always: true },
-    { key: 'authors', label: 'Yazarlar' },
-    { key: 'year', label: 'Yıl' },
-    { key: 'status', label: 'Durum', always: true },
-    { key: 'published_by', label: 'Kitap/Editör' },
-    { key: 'source', label: 'Yayınevi' },
-    { key: 'pages', label: 'Sayfa' },
-    { key: 'discipline', label: 'Disiplin' },
+    { key: 'code', label: 'Code', always: true },
+    { key: 'title', label: 'Chapter Title', always: true },
+    { key: 'authors', label: 'Authors' },
+    { key: 'year', label: 'Year' },
+    { key: 'status', label: 'Status', always: true },
+    { key: 'published_by', label: 'Book/Editor' },
+    { key: 'source', label: 'Publisher' },
+    { key: 'pages', label: 'Pages' },
+    { key: 'discipline', label: 'Discipline' },
   ],
   website: [
-    { key: 'code', label: 'Kod', always: true },
-    { key: 'title', label: 'Başlık', always: true },
-    { key: 'authors', label: 'Yazar/Kurum' },
-    { key: 'year', label: 'Yıl' },
-    { key: 'status', label: 'Durum', always: true },
+    { key: 'code', label: 'Code', always: true },
+    { key: 'title', label: 'Title', always: true },
+    { key: 'authors', label: 'Author/Org' },
+    { key: 'year', label: 'Year' },
+    { key: 'status', label: 'Status', always: true },
     { key: 'source', label: 'URL' },
-    { key: 'discipline', label: 'Disiplin' },
+    { key: 'discipline', label: 'Discipline' },
   ]
 };
 
@@ -1122,19 +1142,19 @@ function openDetail(id) {
   ).join('');
 
   const fields = [
-    { label: 'Yazarlar', val: r.authors },
-    { label: 'Yıl', val: r.year },
-    { label: 'Yayınlayan', val: r.published_by },
-    { label: 'Kaynak', val: r.source },
-    { label: 'Sayfalar', val: r.pages },
-    { label: 'Paradigma', val: r.paradigm },
-    { label: 'Tema', val: r.theme },
-    { label: 'Metodoloji', val: r.methodology },
-    { label: 'Disiplin', val: r.discipline },
-    { label: 'Ölçek', val: r.scale },
-    { label: 'Proje', val: r.project_in },
-    { label: 'Anahtar', val: r.keywords },
-    { label: 'Kullanım', val: r.how_to_use },
+    { label: 'Authors', val: r.authors },
+    { label: 'Year', val: r.year },
+    { label: 'Published By', val: r.published_by },
+    { label: 'Source', val: r.source },
+    { label: 'Pages', val: r.pages },
+    { label: 'Paradigm', val: r.paradigm },
+    { label: 'Theme', val: r.theme },
+    { label: 'Methodology', val: r.methodology },
+    { label: 'Discipline', val: r.discipline },
+    { label: 'Scale', val: r.scale },
+    { label: 'Project', val: r.project_in },
+    { label: 'Keywords', val: r.keywords },
+    { label: 'How to Use', val: r.how_to_use },
   ].filter(f => f.val);
 
   const photoBlock = r.type === 'building' ? `
@@ -1154,19 +1174,19 @@ function openDetail(id) {
     `<div class="apa-block">
       <div class="apa-header">
         <span class="detail-label">APA In-Text</span>
-        <button class="apa-copy-btn" id="copy_apa_intext" onclick="copyApa('apa_intext')">Kopyala</button>
+        <button class="apa-copy-btn" id="copy_apa_intext" onclick="copyApa('apa_intext')">Copy</button>
       </div>
       <textarea class="detail-notes-area" id="detail_apa_intext" onblur="saveApa('apa_intext')" style="min-height:48px" placeholder="(Yazar, Yıl)">${r.apa_intext || ''}</textarea>
     </div>
     <div class="apa-block">
       <div class="apa-header">
-        <span class="detail-label">APA Kaynakça</span>
-        <button class="apa-copy-btn" id="copy_apa_endtext" onclick="copyApa('apa_endtext')">Kopyala</button>
+        <span class="detail-label">APA Reference</span>
+        <button class="apa-copy-btn" id="copy_apa_endtext" onclick="copyApa('apa_endtext')">Copy</button>
       </div>
       <textarea class="detail-notes-area" id="detail_apa_endtext" onblur="saveApa('apa_endtext')" style="min-height:72px" placeholder="Yazar, A. (Yıl). Başlık. Yayınevi.">${r.apa_endtext || ''}</textarea>
     </div>
     <hr class="detail-divider">
-    <div style="margin-bottom:6px"><span class="detail-label" style="display:block;margin-bottom:6px">Notlar</span>
+    <div style="margin-bottom:6px"><span class="detail-label" style="display:block;margin-bottom:6px">Notes</span>
     <textarea class="detail-notes-area" id="detailNotes" onblur="saveNotes()">${r.notes || ''}</textarea></div>`;
 
   document.getElementById('detailOverlay').classList.add('open');
@@ -1211,7 +1231,7 @@ function copyApa(field) {
   const btn = document.getElementById(`copy_${field}`);
   if (!btn) return;
   const orig = btn.textContent;
-  btn.textContent = 'Kopyalandı';
+  btn.textContent = 'Copied';
   btn.classList.add('copied');
   setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
 }
@@ -1238,7 +1258,7 @@ async function uploadBuildingImage(file) {
 // ── ADD/EDIT MODAL ──
 function openAddModal() {
   editingId = null;
-  document.getElementById('formTitle').textContent = 'Yeni Kayıt';
+  document.getElementById('formTitle').textContent = 'New Record';
   document.getElementById('fDeleteBtn').style.display = 'none';
   document.getElementById('fType').value = currentTab;
   ['Code','Title','Authors','Year','PublishedBy','Source','Pages','Paradigm','Theme','Methodology','Discipline','Scale','ProjectIn','Keywords','HowToUse','Notes','ApaIntext','ApaEndtext']
@@ -1253,7 +1273,7 @@ function openEditModal() {
   const r = records.find(x => x.id === detailId);
   if (!r) return;
   editingId = detailId;
-  document.getElementById('formTitle').textContent = 'Kaydı Düzenle';
+  document.getElementById('formTitle').textContent = 'Edit Record';
   document.getElementById('fDeleteBtn').style.display = 'block';
   document.getElementById('fCode').value = r.code || '';
   document.getElementById('fType').value = r.type;
@@ -1348,7 +1368,7 @@ function checkPassword() {
     sessionStorage.setItem(PASS_KEY, '1');
     document.getElementById('lockScreen').style.display = 'none';
   } else {
-    errEl.textContent = 'Yanlış şifre.';
+    errEl.textContent = 'Incorrect password.';
     inp.classList.add('error');
     inp.value = '';
     setTimeout(() => { inp.classList.remove('error'); errEl.textContent = ''; }, 1200);
