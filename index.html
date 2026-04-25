@@ -837,6 +837,14 @@ th.col-apa-toggle { cursor: default; }
         <label class="flabel">Notlar</label>
         <textarea class="ftextarea" id="fNotes" placeholder="Kişisel notlar..."></textarea>
       </div>
+      <div class="fg full">
+        <label class="flabel">APA7 In-Text</label>
+        <input class="finput" id="fApaIntext" placeholder="(Yazar, Yıl)">
+      </div>
+      <div class="fg full">
+        <label class="flabel">APA7 Kaynakça</label>
+        <textarea class="ftextarea" id="fApaEndtext" placeholder="Yazar, A. (Yıl). Başlık. Yayınevi."></textarea>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-danger" id="fDeleteBtn" onclick="deleteRecord()" style="display:none">Sil</button>
@@ -1205,7 +1213,7 @@ function openAddModal() {
   document.getElementById('formTitle').textContent = 'Yeni Kayıt';
   document.getElementById('fDeleteBtn').style.display = 'none';
   document.getElementById('fType').value = currentTab;
-  ['Code','Title','Authors','Year','PublishedBy','Source','Pages','Paradigm','Theme','Methodology','Discipline','Scale','ProjectIn','Keywords','HowToUse','Notes']
+  ['Code','Title','Authors','Year','PublishedBy','Source','Pages','Paradigm','Theme','Methodology','Discipline','Scale','ProjectIn','Keywords','HowToUse','Notes','ApaIntext','ApaEndtext']
     .forEach(f => { const el = document.getElementById(`f${f}`); if(el) el.value = ''; });
   document.getElementById('fStatus').value = 'To Read';
   document.getElementById('formOverlay').classList.add('open');
@@ -1237,6 +1245,8 @@ function openEditModal() {
   document.getElementById('fKeywords').value = r.keywords || '';
   document.getElementById('fHowToUse').value = r.how_to_use || '';
   document.getElementById('fNotes').value = r.notes || '';
+  document.getElementById('fApaIntext').value = r.apa_intext || '';
+  document.getElementById('fApaEndtext').value = r.apa_endtext || '';
   document.getElementById('formOverlay').classList.add('open');
 }
 
@@ -1262,6 +1272,8 @@ async function saveRecord() {
     keywords: document.getElementById('fKeywords').value.trim() || null,
     how_to_use: document.getElementById('fHowToUse').value.trim() || null,
     notes: document.getElementById('fNotes').value.trim() || null,
+    apa_intext: document.getElementById('fApaIntext').value.trim() || null,
+    apa_endtext: document.getElementById('fApaEndtext').value.trim() || null,
   };
 
   if (editingId) {
