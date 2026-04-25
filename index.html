@@ -132,18 +132,17 @@ body {
 
 /* ── COLUMN CLOSED/OPEN ── */
 th.col-closed {
-  width: 28px !important;
-  min-width: 28px !important;
-  max-width: 28px !important;
-  writing-mode: vertical-rl;
-  font-size: 9px;
+  width: 12px !important;
+  min-width: 12px !important;
+  max-width: 12px !important;
   cursor: pointer;
   overflow: hidden;
-  padding: 8px 4px;
-  white-space: nowrap;
-  vertical-align: bottom;
+  padding: 0 !important;
   user-select: none;
+  border-right: 2px solid var(--border2);
+  opacity: 0.4;
 }
+th.col-closed:hover { opacity: 1; border-right-color: var(--accent); }
 
 td.col-closed {
   width: 28px !important;
