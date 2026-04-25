@@ -941,7 +941,7 @@ Object.keys(COLS).forEach(t => {
 
 // ── DATA ──
 async function loadAll() {
-  const { data } = await sb.from('readings').select('*').order('created_at');
+  const { data } = await sb.from('readings').select('*').order('code');
   records = data || [];
   updateCounts();
   renderTable();
