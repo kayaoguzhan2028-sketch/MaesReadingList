@@ -585,16 +585,25 @@ th.col-apa-toggle { cursor: default; }
 .apa-expand-row { display: none; }
 .apa-expand-row.open { display: table-row; }
 .apa-expand-row td {
-  padding: 4px 14px 8px 40px;
-  font-size: 10px;
-  color: var(--text-dim);
-  font-family: 'Courier Prime', monospace;
-  font-style: italic;
+  padding: 4px 14px 6px 40px;
   border-bottom: 1px solid var(--border);
-  line-height: 1.5;
-  cursor: default;
 }
 .apa-expand-row:hover td { background: transparent; }
+.apa-inline-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.5;
+  resize: none;
+  padding: 0;
+  cursor: text;
+}
+.apa-inline-textarea:focus { color: var(--text); font-style: normal; }
 
 /* ── PASSWORD SCREEN ── */
 #lockScreen {
@@ -994,9 +1003,7 @@ function renderTable() {
       }).join('');
     const apa = r.apa_endtext || '';
     const apaCell = `<td class="col-apa-toggle"><button class="apa-toggle-btn" id="apa-btn-${r.id}" onclick="toggleApaRow('${r.id}',event)" title="APA7 Kaynakça">APA</button></td>`;
-    const expandRow = apa
-      ? `<tr class="apa-expand-row" id="apa-expand-${r.id}"><td colspan="${colSpan}">${apa}</td></tr>`
-      : `<tr class="apa-expand-row" id="apa-expand-${r.id}"><td colspan="${colSpan}" style="font-style:normal;color:var(--text-dim);opacity:0.5">—</td></tr>`;
+    const expandRow = `<tr class="apa-expand-row" id="apa-expand-${r.id}"><td colspan="${colSpan}"><textarea class="apa-inline-textarea" rows="2" placeholder="APA7 kaynakça girişi..." onblur="saveApaInline('${r.id}',this)" onclick="event.stopPropagation()">${apa}</textarea></td></tr>`;
     return `<tr onclick="openDetail('${r.id}')" style="${compact ? 'font-size:11px' : ''}">${cells}${apaCell}</tr>${expandRow}`;
   }).join('');
 
@@ -1020,6 +1027,13 @@ function toggleApaRow(id, event) {
   if (!row) return;
   const isOpen = row.classList.toggle('open');
   btn.classList.toggle('active', isOpen);
+}
+
+async function saveApaInline(id, textarea) {
+  const val = textarea.value;
+  await sb.from('readings').update({ apa_endtext: val }).eq('id', id);
+  const r = records.find(x => x.id === id);
+  if (r) r.apa_endtext = val;
 }
 
 // ── COLUMN TOGGLES ──
