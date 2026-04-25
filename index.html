@@ -710,6 +710,9 @@ th.col-apa-toggle { cursor: default; }
   <button class="tab" id="tab-building" onclick="setTab('building')">
     Binalar <span class="tab-count" id="count-building">0</span>
   </button>
+  <button class="tab" id="tab-book_chapter" onclick="setTab('book_chapter')">
+    Kitap Bölümleri <span class="tab-count" id="count-book_chapter">0</span>
+  </button>
 </div>
 
 <!-- COLUMN TOGGLE BAR -->
@@ -765,6 +768,7 @@ th.col-apa-toggle { cursor: default; }
         <select class="fselect" id="fType">
           <option value="article">Makale</option>
           <option value="book">Kitap</option>
+          <option value="book_chapter">Kitap Bölümü</option>
           <option value="thesis">Tez</option>
           <option value="building">Bina</option>
         </select>
@@ -938,6 +942,21 @@ const COLS = {
     { key: 'discipline', label: 'Tür' },
     { key: 'project_in', label: 'Proje' },
     { key: 'keywords', label: 'Anahtar' },
+  ],
+  book_chapter: [
+    { key: 'code', label: 'Kod', always: true },
+    { key: 'title', label: 'Bölüm Başlığı', always: true },
+    { key: 'authors', label: 'Yazarlar' },
+    { key: 'year', label: 'Yıl' },
+    { key: 'status', label: 'Durum', always: true },
+    { key: 'published_by', label: 'Kitap/Editör' },
+    { key: 'source', label: 'Yayınevi' },
+    { key: 'pages', label: 'Sayfa' },
+    { key: 'paradigm', label: 'Paradigma' },
+    { key: 'theme', label: 'Tema' },
+    { key: 'discipline', label: 'Disiplin' },
+    { key: 'project_in', label: 'Proje' },
+    { key: 'keywords', label: 'Anahtar' },
   ]
 };
 
@@ -956,7 +975,7 @@ async function loadAll() {
 }
 
 function updateCounts() {
-  ['article','book','thesis','building'].forEach(t => {
+  ['article','book','thesis','building','book_chapter'].forEach(t => {
     document.getElementById(`count-${t}`).textContent = records.filter(r => r.type === t).length;
   });
 }
