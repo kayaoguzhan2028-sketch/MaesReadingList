@@ -1345,6 +1345,7 @@ function checkPassword() {
   const errEl = document.getElementById('lockError');
   const inp = document.getElementById('lockInput');
   if (val === PASS_HASH) {
+    sessionStorage.setItem(PASS_KEY, '1');
     document.getElementById('lockScreen').style.display = 'none';
   } else {
     errEl.textContent = 'Yanlış şifre.';
@@ -1355,7 +1356,11 @@ function checkPassword() {
 }
 
 // ── INIT ──
-setTimeout(() => document.getElementById('lockInput').focus(), 50);
+if (sessionStorage.getItem(PASS_KEY) === '1') {
+  document.getElementById('lockScreen').style.display = 'none';
+} else {
+  setTimeout(() => document.getElementById('lockInput').focus(), 50);
+}
 loadAll();
 </script>
 </body>
