@@ -1084,7 +1084,8 @@ function toggleApaRow(id, event) {
 
 async function saveApaInline(id, textarea) {
   const val = textarea.value;
-  await sb.from('readings').update({ apa_endtext: val }).eq('id', id);
+  const { error } = await sb.from('readings').update({ apa_endtext: val }).eq('id', id);
+  if (error) { console.error('saveApaInline error:', error.message); return; }
   const r = records.find(x => x.id === id);
   if (r) r.apa_endtext = val;
 }
@@ -1217,7 +1218,8 @@ async function saveNotes() {
 async function saveApa(field) {
   if (!detailId) return;
   const val = document.getElementById(`detail_${field}`)?.value || '';
-  await sb.from('readings').update({ [field]: val }).eq('id', detailId);
+  const { error } = await sb.from('readings').update({ [field]: val }).eq('id', detailId);
+  if (error) { console.error('saveApa error:', error.message); return; }
   const r = records.find(x => x.id === detailId);
   if (r) r[field] = val;
 }
@@ -1322,9 +1324,7 @@ async function saveRecord() {
   };
 
   if (editingId) {
-    console.log('Updating id:', editingId, 'code:', payload.code);
     const { error } = await sb.from('readings').update(payload).eq('id', editingId);
-    console.log('Update result error:', error);
     if (error) { alert('Save failed: ' + error.message); return; }
     const idx = records.findIndex(r => r.id === editingId);
     if (idx >= 0) records[idx] = { ...records[idx], ...payload };
