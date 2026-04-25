@@ -130,27 +130,40 @@ body {
   font-family: 'Courier Prime', monospace;
 }
 
-/* ── COLUMN CLOSED/OPEN ── */
-th.col-closed {
-  width: 12px !important;
-  min-width: 12px !important;
-  max-width: 12px !important;
+/* ── COLUMN TOGGLE BAR ── */
+.col-toggle-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.col-toggle-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+.col-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 4px;
   cursor: pointer;
-  overflow: hidden;
-  padding: 0 !important;
-  user-select: none;
-  border-right: 2px solid var(--border2);
-  opacity: 0.4;
+  transition: all 0.15s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
-th.col-closed:hover { opacity: 1; border-right-color: var(--accent); }
-
-td.col-closed {
-  width: 28px !important;
-  min-width: 28px !important;
-  max-width: 28px !important;
-  overflow: hidden;
-  padding: 0 !important;
-}
+.col-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+.col-btn:hover:not(.active) { border-color: var(--border2); color: var(--text-mid); }
 
 /* ── TABLE AREA ── */
 .table-wrap {
@@ -690,6 +703,11 @@ th.col-apa-toggle { cursor: default; }
   </button>
 </div>
 
+<!-- COLUMN TOGGLE BAR -->
+<div class="col-toggle-bar" id="colToggleBar">
+  <span class="col-toggle-label">Kolonlar:</span>
+</div>
+
 <!-- TABLE -->
 <div class="table-wrap">
   <table id="mainTable">
@@ -906,20 +924,11 @@ const COLS = {
   ]
 };
 
-// Column open/closed state per tab
-const DEFAULT_OPEN_COLS = ['code', 'title', 'status'];
-let openCols = {};
-
-function initOpenCols() {
-  openCols = {};
-  Object.keys(COLS).forEach(t => {
-    openCols[t] = {};
-    COLS[t].forEach(c => {
-      openCols[t][c.key] = DEFAULT_OPEN_COLS.includes(c.key);
-    });
-  });
-}
-initOpenCols();
+// Visible columns state per tab (all visible by default)
+let visibleCols = {};
+Object.keys(COLS).forEach(t => {
+  visibleCols[t] = COLS[t].map(c => c.key);
+});
 
 // ── DATA ──
 async function loadAll() {
@@ -938,6 +947,7 @@ function updateCounts() {
 // ── RENDER TABLE ──
 function renderTable() {
   const cols = COLS[currentTab];
+  const visible = visibleCols[currentTab];
   const head = document.getElementById('tableHead');
   const body = document.getElementById('tableBody');
   const empty = document.getElementById('emptyState');
@@ -955,35 +965,33 @@ function renderTable() {
     r.keywords?.toLowerCase().includes(fSearch)
   );
 
-  const open = openCols[currentTab];
-
-  // Head — all columns, closed ones get writing-mode vertical
-  head.innerHTML = '<tr>' + cols.map(c => {
-    const isOpen = open[c.key];
-    const cls = isOpen ? `col-${c.key}` : `col-${c.key} col-closed`;
-    return `<th class="${cls}" onclick="toggleCol('${c.key}')">${c.label}</th>`;
-  }).join('') + '<th class="col-apa-toggle"></th></tr>';
+  // Head
+  head.innerHTML = '<tr>' + cols
+    .filter(c => visible.includes(c.key))
+    .map(c => `<th class="col-${c.key}">${c.label}</th>`)
+    .join('') + '<th class="col-apa-toggle"></th></tr>';
 
   // Body
   if (!filtered.length) {
     body.innerHTML = '';
     empty.style.display = 'block';
+    renderColToggles();
     return;
   }
   empty.style.display = 'none';
 
-  const colSpan = cols.length + 1;
+  const colSpan = visible.length + 1;
   body.innerHTML = filtered.map(r => {
-    const cells = cols.map(c => {
-      const isOpen = open[c.key];
-      if (!isOpen) return `<td class="col-${c.key} col-closed"></td>`;
-      let val = r[c.key] || '';
-      if (c.key === 'status') {
-        const cls = val.toLowerCase().replace(' ', '');
-        val = `<span class="status-badge status-${cls}">${val}</span>`;
-      }
-      return `<td class="col-${c.key}">${val}</td>`;
-    }).join('');
+    const cells = cols
+      .filter(c => visible.includes(c.key))
+      .map(c => {
+        let val = r[c.key] || '';
+        if (c.key === 'status') {
+          const cls = val.toLowerCase().replace(' ', '');
+          val = `<span class="status-badge status-${cls}">${val}</span>`;
+        }
+        return `<td class="col-${c.key}">${val}</td>`;
+      }).join('');
     const apa = r.apa_endtext || '';
     const apaCell = `<td class="col-apa-toggle"><button class="apa-toggle-btn" id="apa-btn-${r.id}" onclick="toggleApaRow('${r.id}',event)" title="APA7 Kaynakça">APA</button></td>`;
     const expandRow = apa
@@ -991,6 +999,18 @@ function renderTable() {
       : `<tr class="apa-expand-row" id="apa-expand-${r.id}"><td colspan="${colSpan}" style="font-style:normal;color:var(--text-dim);opacity:0.5">—</td></tr>`;
     return `<tr onclick="openDetail('${r.id}')" style="${compact ? 'font-size:11px' : ''}">${cells}${apaCell}</tr>${expandRow}`;
   }).join('');
+
+  renderColToggles();
+}
+
+function renderColToggles() {
+  const bar = document.getElementById('colToggleBar');
+  const cols = COLS[currentTab];
+  const visible = visibleCols[currentTab];
+  bar.innerHTML = '<span class="col-toggle-label">Kolonlar:</span>' +
+    cols.map(c => `<button class="col-btn${visible.includes(c.key) ? ' active' : ''}"
+      onclick="toggleCol('${c.key}')"
+      ${c.always ? 'title="Zorunlu kolon"' : ''}>${c.label}</button>`).join('');
 }
 
 function toggleApaRow(id, event) {
@@ -1004,7 +1024,12 @@ function toggleApaRow(id, event) {
 
 // ── COLUMN TOGGLES ──
 function toggleCol(key) {
-  openCols[currentTab][key] = !openCols[currentTab][key];
+  const col = COLS[currentTab].find(c => c.key === key);
+  if (col?.always) return;
+  const vis = visibleCols[currentTab];
+  const idx = vis.indexOf(key);
+  if (idx >= 0) vis.splice(idx, 1);
+  else vis.push(key);
   renderTable();
 }
 
