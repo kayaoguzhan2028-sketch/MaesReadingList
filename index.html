@@ -1325,11 +1325,13 @@ async function saveRecord() {
   };
 
   if (editingId) {
-    await sb.from('readings').update(payload).eq('id', editingId);
+    const { error } = await sb.from('readings').update(payload).eq('id', editingId);
+    if (error) { alert('Save failed: ' + error.message); return; }
     const idx = records.findIndex(r => r.id === editingId);
     if (idx >= 0) records[idx] = { ...records[idx], ...payload };
   } else {
-    const { data } = await sb.from('readings').insert(payload).select().single();
+    const { data, error } = await sb.from('readings').insert(payload).select().single();
+    if (error) { alert('Save failed: ' + error.message); return; }
     if (data) records.push(data);
   }
 
