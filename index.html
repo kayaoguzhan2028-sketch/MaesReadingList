@@ -689,6 +689,222 @@ th.col-apa-toggle { cursor: default; }
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
 }
+
+/* ── FIGURES VIEW ── */
+.figures-view {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.figures-view::-webkit-scrollbar { width: 3px; }
+.figures-view::-webkit-scrollbar-thumb { background: var(--border2); }
+
+.figures-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  gap: 12px;
+  align-content: start;
+}
+
+.figure-card {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.figure-card:hover { border-color: var(--border2); }
+
+.figure-card-top {
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.figure-main { flex: 1; min-width: 0; }
+
+.figure-code {
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.figure-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.figure-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+
+.figure-meta-item {
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+.figure-meta-item span { color: var(--text-mid); }
+
+.figure-toggle-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  min-height: 32px;
+}
+.figure-toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+.figure-toggle-btn.open { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+.figure-notes {
+  padding: 0 16px 14px;
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.55;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.figure-accordion { display: none; border-top: 1px solid var(--border); }
+.figure-accordion.open { display: block; }
+
+.figure-mention { padding: 10px 16px; }
+
+.mention-line1 {
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.mention-context {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.mention-type-badge {
+  display: inline-block;
+  font-family: 'Courier Prime', monospace;
+  font-size: 8px;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  border-radius: 3px;
+  padding: 1px 5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.mention-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+.figure-accordion-empty {
+  padding: 10px 16px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.figure-card-footer {
+  border-top: 1px solid var(--border);
+  padding: 8px 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-add-mention {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Courier Prime', monospace;
+  font-size: 9px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.15s;
+  min-height: 32px;
+}
+.btn-add-mention:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── MOBILE RESPONSIVENESS (Samsung Galaxy A50: 360×800 portrait / 800×360 landscape) ── */
+@media (max-width: 640px) {
+  /* Tabs: horizontal scroll, no wrap */
+  .tabs { overflow-x: auto; scrollbar-width: none; padding: 0 8px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { padding: 0 10px; min-height: 44px; font-size: 10px; letter-spacing: 0.07em; white-space: nowrap; }
+
+  /* Topbar */
+  .topbar { padding: 0 10px; }
+  .topbar-center { display: none; }
+  .btn-add { font-size: 10px; padding: 0 10px; min-height: 36px; }
+  .btn-settings { font-size: 10px; padding: 0 8px; min-height: 36px; }
+
+  /* Col toggle bar */
+  .col-toggle-bar { padding: 6px 10px; }
+  .col-btn { min-height: 30px; }
+
+  /* Detail panel: full width */
+  .detail-panel { width: 100%; }
+
+  /* Settings panel: full width */
+  .settings-panel { width: 100%; }
+
+  /* Modal: bottom sheet style */
+  .overlay { padding: 0; align-items: flex-end; }
+  .modal {
+    border-radius: var(--radius) var(--radius) 0 0;
+    max-height: 92vh;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Figures */
+  .figures-view { padding: 10px; }
+  .figures-grid { grid-template-columns: 1fr; gap: 8px; }
+  .figure-toggle-btn { min-height: 44px; padding: 0 12px; }
+  .btn-add-mention { min-height: 44px; padding: 0 12px; }
+  .btn { min-height: 44px; padding: 8px 14px; }
+  .figure-card-footer { padding: 6px 12px; }
+  .figure-card-top { padding: 12px 12px; }
+  .figure-notes { padding: 10px 12px 12px; }
+  .figure-mention { padding: 10px 12px; }
+}
+
+/* Landscape mobile: limited height */
+@media (max-height: 480px) and (orientation: landscape) {
+  .topbar { height: 40px; }
+  .tabs { padding: 0 8px; }
+  .tab { padding: 0 8px; min-height: 36px; font-size: 10px; }
+  .modal { max-height: 95vh; overflow-y: auto; border-radius: var(--radius); }
+  .detail-panel { width: 55%; }
+  .figures-view { padding: 10px; }
+  .figures-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+}
 </style>
 </head>
 <body>
@@ -736,6 +952,9 @@ th.col-apa-toggle { cursor: default; }
   <button class="tab" id="tab-website" onclick="setTab('website')">
     Websites <span class="tab-count" id="count-website">0</span>
   </button>
+  <button class="tab" id="tab-figures" onclick="setTab('figures')">
+    Figures <span class="tab-count" id="count-figures">0</span>
+  </button>
 </div>
 
 <!-- COLUMN TOGGLE BAR -->
@@ -750,6 +969,12 @@ th.col-apa-toggle { cursor: default; }
     <tbody id="tableBody"></tbody>
   </table>
   <div class="empty" id="emptyState" style="display:none">Henüz kayıt yok.</div>
+</div>
+
+<!-- FIGURES VIEW -->
+<div class="figures-view" id="figuresView" style="display:none">
+  <div class="figures-grid" id="figuresGrid"></div>
+  <div class="empty" id="figuresEmpty" style="display:none">No figures yet.</div>
 </div>
 
 <!-- SETTINGS PANEL -->
@@ -882,6 +1107,74 @@ th.col-apa-toggle { cursor: default; }
   </div>
 </div>
 
+<!-- ADD / EDIT FIGURE MODAL -->
+<div class="overlay" id="figureFormOverlay" onclick="closeIfOutside(event,'figureFormOverlay')">
+  <div class="modal">
+    <div class="modal-title" id="figureFormTitle">New Figure</div>
+    <div class="form-grid">
+      <div class="fg full">
+        <label class="flabel">Name *</label>
+        <input class="finput" id="ffName" placeholder="Michel Foucault">
+      </div>
+      <div class="fg">
+        <label class="flabel">Field</label>
+        <input class="finput" id="ffField" placeholder="Philosophy, Sociology…">
+      </div>
+      <div class="fg">
+        <label class="flabel">Nationality</label>
+        <input class="finput" id="ffNationality" placeholder="French">
+      </div>
+      <div class="fg">
+        <label class="flabel">Born</label>
+        <input class="finput" id="ffBorn" placeholder="1926">
+      </div>
+      <div class="fg">
+        <label class="flabel">Died</label>
+        <input class="finput" id="ffDied" placeholder="1984">
+      </div>
+      <div class="fg full">
+        <label class="flabel">Notes / Ideas</label>
+        <textarea class="ftextarea" id="ffNotes" placeholder="Key ideas, contributions…" style="min-height:90px"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="ffDeleteBtn" onclick="deleteFigure()" style="display:none">Delete</button>
+      <button class="btn btn-ghost" onclick="closeOverlay('figureFormOverlay')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveFigure()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MENTION MODAL -->
+<div class="overlay" id="mentionFormOverlay" onclick="closeIfOutside(event,'mentionFormOverlay')">
+  <div class="modal">
+    <div class="modal-title">Add Mention</div>
+    <div class="form-grid">
+      <div class="fg full">
+        <label class="flabel">Reading *</label>
+        <select class="fselect" id="mfReading"></select>
+      </div>
+      <div class="fg full">
+        <label class="flabel">Mention Type</label>
+        <select class="fselect" id="mfMentionType">
+          <option value="cited">Cited</option>
+          <option value="discussed">Discussed</option>
+          <option value="referenced">Referenced</option>
+          <option value="critiqued">Critiqued</option>
+        </select>
+      </div>
+      <div class="fg full">
+        <label class="flabel">Context</label>
+        <textarea class="ftextarea" id="mfContext" placeholder="How this figure is mentioned in this reading…" style="min-height:90px"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeOverlay('mentionFormOverlay')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMention()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- DETAIL PANEL -->
 <div class="detail-overlay" id="detailOverlay" onclick="closeDetail()"></div>
 <div class="detail-panel" id="detailPanel">
@@ -912,6 +1205,12 @@ let editingId = null;
 let detailId = null;
 let compact = false;
 let settingsOpen = false;
+
+// Figures state
+let figures = [];
+let editingFigureId = null;
+let mentionFigureId = null;
+let openAccordionId = null;
 
 // Column definitions per type
 const COLS = {
@@ -1107,7 +1406,17 @@ function setTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(`tab-${tab}`).classList.add('active');
   closeDetail();
-  renderTable();
+
+  const isFigures = tab === 'figures';
+  document.getElementById('figuresView').style.display = isFigures ? '' : 'none';
+  document.querySelector('.table-wrap').style.display = isFigures ? 'none' : '';
+  document.getElementById('colToggleBar').style.display = isFigures ? 'none' : '';
+
+  if (isFigures) {
+    renderFigures();
+  } else {
+    renderTable();
+  }
 }
 
 // ── FILTERS ──
@@ -1256,6 +1565,7 @@ async function uploadBuildingImage(file) {
 
 // ── ADD/EDIT MODAL ──
 function openAddModal() {
+  if (currentTab === 'figures') { openAddFigureModal(); return; }
   editingId = null;
   document.getElementById('formTitle').textContent = 'New Record';
   document.getElementById('fDeleteBtn').style.display = 'none';
@@ -1354,7 +1664,12 @@ function closeOverlay(id) { document.getElementById(id).classList.remove('open')
 function closeIfOutside(e, id) { if (e.target.id === id) closeOverlay(id); }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeOverlay('formOverlay'); closeDetail(); }
+  if (e.key === 'Escape') {
+    closeOverlay('formOverlay');
+    closeOverlay('figureFormOverlay');
+    closeOverlay('mentionFormOverlay');
+    closeDetail();
+  }
 });
 
 // ── PASSWORD ──
@@ -1376,6 +1691,188 @@ function checkPassword() {
   }
 }
 
+// ── FIGURES ──
+
+async function loadFigures() {
+  const { data, error } = await sb
+    .from('figures')
+    .select('*, reading_figures(*, readings(code, authors, title))')
+    .order('code');
+  if (error) { console.error('loadFigures error:', error.message); return; }
+  figures = data || [];
+  const el = document.getElementById('count-figures');
+  if (el) el.textContent = figures.length;
+  if (currentTab === 'figures') renderFigures();
+}
+
+function renderFigures() {
+  const grid = document.getElementById('figuresGrid');
+  const empty = document.getElementById('figuresEmpty');
+  if (!figures.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  grid.innerHTML = figures.map(fig => renderFigureCard(fig)).join('');
+}
+
+function renderFigureCard(fig) {
+  const mentions = (fig.reading_figures || []);
+  const born = fig.born || '';
+  const died = fig.died || '';
+  const dates = (born || died) ? `${born}–${died}` : '';
+  const isOpen = openAccordionId === fig.id;
+
+  const metaItems = [
+    fig.field ? `<span class="figure-meta-item">Field <span>${fig.field}</span></span>` : '',
+    fig.nationality ? `<span class="figure-meta-item">Nat. <span>${fig.nationality}</span></span>` : '',
+    dates ? `<span class="figure-meta-item"><span>${dates}</span></span>` : '',
+  ].filter(Boolean).join('');
+
+  const mentionsHtml = mentions.length
+    ? mentions.map((m, i) => {
+        const r = m.readings || {};
+        const parts = [r.code, r.authors, r.title].filter(Boolean);
+        const typeBadge = m.mention_type
+          ? `<span class="mention-type-badge">${m.mention_type}</span>`
+          : '';
+        return `${i > 0 ? '<hr class="mention-divider">' : ''}
+          <div class="figure-mention">
+            <div class="mention-line1">${parts.join(' · ')}${typeBadge}</div>
+            ${m.context ? `<div class="mention-context">${m.context}</div>` : ''}
+          </div>`;
+      }).join('')
+    : '<div class="figure-accordion-empty">No mentions yet.</div>';
+
+  return `<div class="figure-card" id="fig-${fig.id}">
+    <div class="figure-card-top">
+      <div class="figure-main">
+        <div class="figure-code">${fig.code || ''}</div>
+        <div class="figure-name">${fig.name || ''}</div>
+        <div class="figure-meta">${metaItems}</div>
+      </div>
+      <button class="figure-toggle-btn${isOpen ? ' open' : ''}" id="fig-toggle-${fig.id}"
+        onclick="toggleFigureAccordion('${fig.id}')">
+        Mentions (${mentions.length})
+      </button>
+    </div>
+    ${fig.notes ? `<div class="figure-notes">${fig.notes}</div>` : ''}
+    <div class="figure-accordion${isOpen ? ' open' : ''}" id="fig-accordion-${fig.id}">
+      ${mentionsHtml}
+    </div>
+    <div class="figure-card-footer">
+      <button class="btn-add-mention" onclick="openAddMentionModal('${fig.id}')">+ Mention</button>
+      <button class="btn btn-ghost" style="font-size:10px;min-height:32px" onclick="openEditFigureModal('${fig.id}')">Edit</button>
+    </div>
+  </div>`;
+}
+
+function toggleFigureAccordion(figId) {
+  const wasOpen = openAccordionId === figId;
+
+  if (openAccordionId) {
+    const prevAcc = document.getElementById(`fig-accordion-${openAccordionId}`);
+    const prevBtn = document.getElementById(`fig-toggle-${openAccordionId}`);
+    if (prevAcc) prevAcc.classList.remove('open');
+    if (prevBtn) prevBtn.classList.remove('open');
+  }
+  openAccordionId = null;
+
+  if (!wasOpen) {
+    const acc = document.getElementById(`fig-accordion-${figId}`);
+    const btn = document.getElementById(`fig-toggle-${figId}`);
+    if (acc) acc.classList.add('open');
+    if (btn) btn.classList.add('open');
+    openAccordionId = figId;
+  }
+}
+
+function openAddFigureModal() {
+  editingFigureId = null;
+  document.getElementById('figureFormTitle').textContent = 'New Figure';
+  document.getElementById('ffDeleteBtn').style.display = 'none';
+  ['ffName','ffField','ffNationality','ffBorn','ffDied','ffNotes'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.getElementById('figureFormOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('ffName').focus(), 150);
+}
+
+function openEditFigureModal(figId) {
+  const fig = figures.find(f => f.id === figId);
+  if (!fig) return;
+  editingFigureId = figId;
+  document.getElementById('figureFormTitle').textContent = 'Edit Figure';
+  document.getElementById('ffDeleteBtn').style.display = 'block';
+  document.getElementById('ffName').value = fig.name || '';
+  document.getElementById('ffField').value = fig.field || '';
+  document.getElementById('ffNationality').value = fig.nationality || '';
+  document.getElementById('ffBorn').value = fig.born || '';
+  document.getElementById('ffDied').value = fig.died || '';
+  document.getElementById('ffNotes').value = fig.notes || '';
+  document.getElementById('figureFormOverlay').classList.add('open');
+}
+
+async function saveFigure() {
+  const name = document.getElementById('ffName').value.trim();
+  if (!name) { document.getElementById('ffName').focus(); return; }
+  const payload = {
+    name,
+    field: document.getElementById('ffField').value.trim() || null,
+    nationality: document.getElementById('ffNationality').value.trim() || null,
+    born: document.getElementById('ffBorn').value.trim() || null,
+    died: document.getElementById('ffDied').value.trim() || null,
+    notes: document.getElementById('ffNotes').value.trim() || null,
+  };
+  if (editingFigureId) {
+    const { error } = await sb.from('figures').update(payload).eq('id', editingFigureId);
+    if (error) { alert('Save failed: ' + error.message); return; }
+  } else {
+    const { error } = await sb.from('figures').insert(payload);
+    if (error) { alert('Save failed: ' + error.message); return; }
+  }
+  closeOverlay('figureFormOverlay');
+  await loadFigures();
+}
+
+async function deleteFigure() {
+  if (!editingFigureId || !confirm('Delete this figure?')) return;
+  const { error } = await sb.from('figures').delete().eq('id', editingFigureId);
+  if (error) { alert('Delete failed: ' + error.message); return; }
+  closeOverlay('figureFormOverlay');
+  editingFigureId = null;
+  await loadFigures();
+}
+
+function openAddMentionModal(figId) {
+  mentionFigureId = figId;
+  const sel = document.getElementById('mfReading');
+  const sorted = [...records].sort((a, b) => (a.code || '').localeCompare(b.code || ''));
+  sel.innerHTML = '<option value="">— Select Reading —</option>' +
+    sorted.map(r => `<option value="${r.id}">${r.code || ''} — ${r.title || ''}</option>`).join('');
+  document.getElementById('mfMentionType').value = 'cited';
+  document.getElementById('mfContext').value = '';
+  document.getElementById('mentionFormOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('mfContext').focus(), 150);
+}
+
+async function saveMention() {
+  if (!mentionFigureId) return;
+  const reading_id = document.getElementById('mfReading').value;
+  if (!reading_id) { document.getElementById('mfReading').focus(); return; }
+  const payload = {
+    figure_id: mentionFigureId,
+    reading_id,
+    mention_type: document.getElementById('mfMentionType').value,
+    context: document.getElementById('mfContext').value.trim() || null,
+  };
+  const { error } = await sb.from('reading_figures').insert(payload);
+  if (error) { alert('Save failed: ' + error.message); return; }
+  closeOverlay('mentionFormOverlay');
+  await loadFigures();
+}
+
 // ── INIT ──
 if (sessionStorage.getItem(PASS_KEY) === '1') {
   document.getElementById('lockScreen').style.display = 'none';
@@ -1383,6 +1880,7 @@ if (sessionStorage.getItem(PASS_KEY) === '1') {
   setTimeout(() => document.getElementById('lockInput').focus(), 50);
 }
 loadAll();
+loadFigures();
 </script>
 </body>
 </html>
